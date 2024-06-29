@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic To-Do WebApp</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #007bff;
+        }
+
+        .task-input {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .task-input input {
+            width: 70%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .task-input button {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #28a745;
+            color: #fff;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .task-input button:hover {
+            background-color: #218838;
+        }
+
+        .task-input button.clear {
+            background-color: #dc3545;
+        }
+
+        .task-input button.clear:hover {
+            background-color: #c82333;
+        }
+
+        .task-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .task-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .task-list li.completed {
+            background-color: #d4edda;
+            text-decoration: line-through;
+        }
+
+        .task-list button {
+            border: none;
+            background-color: transparent;
+            color: #ff6347;
+            cursor: pointer;
+        }
+
+        .task-list button.complete {
+            color: #28a745;
+        }
+
+        .task-list button.complete:hover {
+            color: #218838;
+        }
+
+        .task-list button.delete {
+            color: #dc3545;
+        }
+
+        .task-list button.delete:hover {
+            color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Basic To-Do WebApp</h1>
+        <div class="task-input">
+            <input type="text" id="taskInput" placeholder="Add a new task (max 50 characters)" maxlength="50">
+            <button onclick="addTask()">Add</button>
+            <button class="clear" onclick="clearInput()">Clear</button>
+        </div>
+        <h2>Pending Tasks</h2>
+        <ul id="pendingTasks" class="task-list"></ul>
+        <h2>Completed Tasks</h2>
+        <ul id="completedTasks" class="task-list"></ul>
+    </div>
+
+    <script>
+        function addTask() {
+            const taskInput = document.getElementById('taskInput');
+            const taskText = taskInput.value.trim();
+            if (taskText === '') {
+                alert('Please enter a task');
+                return;
+            }
+
+            const taskItem = document.createElement('li');
+            taskItem.innerHTML = `
+                ${taskText}
+                <div>
+                    <button class="complete" onclick="completeTask(this)">Complete</button>
+                    <button class="delete" onclick="deleteTask(this)">Delete</button>
+                </div>
+            `;
+
+            document.getElementById('pendingTasks').appendChild(taskItem);
+            taskInput.value = '';
+        }
+
+        function completeTask(button) {
+            const taskItem = button.parentElement.parentElement;
+            taskItem.classList.add('completed');
+            document.getElementById('completedTasks').appendChild(taskItem);
+            button.remove();
+        }
+
+        function deleteTask(button) {
+            const taskItem = button.parentElement.parentElement;
+            taskItem.remove();
+        }
+
+        function clearInput() {
+            document.getElementById('taskInput').value = '';
+        }
+    </script>
+</body>
+</html>
